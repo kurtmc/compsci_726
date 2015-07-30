@@ -1,0 +1,33 @@
+Tor provides anonymity by routing communications within layers of
+encryption. A vulnerability in the Tor network is the indirect rate
+reduction attack. This attack can reduce anonymity by monitoring client
+connections and spoofing traffic on Tor exit relay. By spoofing messages
+to an exit relay at a rate slower than the client was previously
+receiving messages, a rate reduction can be observed. This indicates that
+the client is likely to be communicating with that specific server. We
+propose a method to counteract this attack by extending Tor to mask the
+rate of messages being received.
+
+Ideas
+
+Sending random packets from entry relay to client
+
+pros:
+- adds noise to rate
+- hard as fuck to figure out
+
+cons:
+- reduce tor performance
+
+
+limit rate:
+
+pros:
+
+- rate consistant, so hard to figure out
+
+cons:
+- performance loss
+- figure out-able
+
+
