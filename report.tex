@@ -1,0 +1,41 @@
+\documentclass{report}
+
+\title{Counteracting Rate Reduction Attacks in Tor}
+\date{\today}
+\author{Jenna Finlayson\\Kurt McAlpine}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Tor provides anonymity by routing communications within layers of encryption. A
+vulnerability in the Tor network is the indirect rate reduction attack. This
+attack can reduce anonymity by monitoring client connections and spoofing
+traffic on Tor exit relay. By spoofing messages to an exit relay at a rate
+slower than the client was previously receiving messages, a rate reduction can
+be observed. This indicates that the client is likely to be communicating with
+that specific server. We propose a method to counteract this attack by
+extending Tor to mask the rate of messages being received.
+\end{abstract}
+
+\section{Introduction}
+
+The majority of surveillance that occurs today is the surveillance of data and
+communications on the internet\cite{diffie2008brave}. Since the 2013 leaks from
+Edward Snowden we now know for certain the scale and government power behind
+mass internet surveillance. So it is important for us to have a way to protect
+ourselves from certain types of surveillance. One of the solutions is to use an
+anonymity network such as the Tor. Tor allows anonymous communications by
+encrypting and routing network traffic between multiple volunteer operated
+onion routers. This conceals the users physical locations and usage from
+potential surveyors. Too keep ourselves safe from government surveillance it is
+important to reduce the vulnerabilities in Tor is they become discovered. One
+such vulnerability found in Tor is something called a ``Rate Reduction Attack''
+whereby TCP traffic can be spoofed on a Tor exit node and the location of a Tor
+user can be identified\cite{gilad2012spying}.
+
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
