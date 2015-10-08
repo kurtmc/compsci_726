@@ -9,7 +9,7 @@ IEEE double column format (A4).
 
 Tor is not purely anonymizing. Exploits that reduce anonymity.
 
-#PAPERS:
+#Papers:
 Guard Sets for Onion Routing  
 Spying in the Dark (Jenna's paper)  
 RAPTOR: Routing attacks on privacy in tor   
@@ -27,6 +27,4 @@ The Sniper Attack: Anonymously Deanonymizing and Disabling the Tor Network
 	- The problem? I guess?  
 – Proposed idea  
 	- Our ideas  
-	- Bonus: experiment and comparing  
-
-
+ 	- Bonus: experiment and comparing  
