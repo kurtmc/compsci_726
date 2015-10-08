@@ -20,11 +20,12 @@ The Sniper Attack: Anonymously Deanonymizing and Disabling the Tor Network
 – Abstract  
 – Introduction  
 	- Context  
-	- Problem description  
+	- Problem description 
+		- Describe all the exploits we know about
 	- Contribution  
 – Related work  
 	- At least 5 research publications  
-	- The problem? I guess?  
+	- Explain their solutions for each attack  
 – Proposed idea  
 	- Our ideas  
- 	- Bonus: experiment and comparing  
+ 	- Add a security extension to Tor which implements each thing - modify Tor's API to allow security extensions. Make Tor more extensible so you can implement your own. Be able to turn each one off or on. 
