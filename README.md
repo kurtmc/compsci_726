@@ -17,15 +17,15 @@ TorScan: Tracing Long-lived Connections and Differential Scanning Attacks  - Jen
 The Sniper Attack: Anonymously Deanonymizing and Disabling the Tor Network   - Kurt  
 
 #Structure:
-– Abstract  
-– Introduction  
+- Abstract  
+- Introduction  
 	- Context  
 	- Problem description 
 		- Describe all the exploits we know about
 	- Contribution  
-– Related work  
+- Related work  
 	- At least 5 research publications  
 	- Explain their solutions for each attack  
-– Proposed idea  
+- Proposed idea  
 	- Our ideas  
  	- Add a security extension to Tor which implements each thing - modify Tor's API to allow security extensions. Make Tor more extensible so you can implement your own. Be able to turn each one off or on. - Kurt  
