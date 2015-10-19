@@ -1,7 +1,7 @@
 \documentclass[9pt,technote]{IEEEtran}
 \usepackage[numbers]{natbib}
 
-\title{[Name of framework]: A Proposed Framework For Simple Implementation of Countermeasures Against Attacks on Tor}
+\title{[Name of framework]: A Proposed Framework For Standaradised Implementation of Countermeasures Against Attacks on Tor}
 \date{\today}
 \author{Jenna Finlayson\\Kurt McAlpine}
 
@@ -26,7 +26,7 @@ communications on the internet\cite{diffie2008brave}. Since the 2013 leaks from
 Edward Snowden we now know for certain the scale and government power behind
 mass internet surveillance. So it is important for us to have a way to protect
 ourselves from certain types of surveillance. One of the solutions is to use an
-anonymity network such as the Tor. Tor allows anonymous communications by
+anonymity network such as Tor. Tor allows anonymous communications by
 encrypting and routing network traffic between multiple volunteer operated
 onion routers. This conceals the users physical locations and usage from
 potential surveyors. Too keep ourselves safe from government surveillance it is
@@ -36,12 +36,12 @@ whereby TCP traffic can be spoofed on a Tor exit node and the location of a Tor
 user can be identified\cite{gilad2012spying}.
 
 % Here's all the citations we have to use.
-\cite{hayesguard}\cite{gilad2012spying}\cite{sun2015raptor}\cite{biryukov2012torscan}\cite{jansen2014sniper}
+\cite{hayesguard}\cite{gilad2012spying}\cite{sun2015raptor}\cite{biryukov2012torscan}\cite{jansen2014sniper}\cite{tor}
 
 \section{Related Work}
-In order to show the types of attacks that can be used to reduce the anonymity of the Tor network, we summarise papers that identify some of these types of attacks and the authors' proposed countermeasures for them. We then identify flaws in the implementation and potential deployment problems of these countermeasures.\\
+In order to show the types of attacks that can be used to reduce the anonymity of the Tor network, we summarise papers that identify some of these types of attacks and the authors' proposed countermeasures for them. We then identify flaws in the implementation and potential deployment problems of these countermeasures. We could not find any literature about any existing standardised frameworks like the one we propose and have therefore focused on identifying different attack types that our framework can work with.\\
 
-\citeauthor{gilad2012spying} have detailed a type of attack on Tor that uses
+\citeauthor{gilad2012spying} have detailed a type of attack on Tor that uses eavesdropping only on the client, while carrying out an active attack on the exit relay of a Tor circuit.
 
 
 \bibliographystyle{plain}
