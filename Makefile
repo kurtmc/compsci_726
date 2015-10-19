@@ -6,6 +6,7 @@ all:
 	${MAKE} pdflatex
 	${MAKE} bibtex
 	${MAKE} pdflatex
+	${MAKE} pdflatex
 	mv $(OUT)/$(FILENAME).pdf ./$(OUTPUT_NAME)
 
 pdflatex:
