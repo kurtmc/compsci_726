@@ -1,6 +1,6 @@
 OUT = out
 FILENAME = report
-OUTPUT_NAME = Rate_Reduction_Report.pdf
+OUTPUT_NAME = Tor_Plugin_Report.pdf
 
 all:
 	${MAKE} pdflatex

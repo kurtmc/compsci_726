@@ -47,6 +47,19 @@ identifying different attack types that our framework can work with.\\
 eavesdropping only on the client, while carrying out an active attack on the
 exit relay of a Tor circuit in order to identify communicating peers.
 
+\section{Sniper Attack}
+The sniper attack outlined by \citeauthor{jansen2014sniper} describes a denial
+of service attack that can be targeted to any Tor node. The attack is relatively
+cheap where the attacker only needs 92 KiB/s upstream to start consuming memory
+at 2187 KiB/s. The way the attack works is by starting a large download over the
+Tor network, then stop reading from the entry relay and then malliciously
+sending \texttt{SENDME} requests to the exit relay, this forces the entry relay
+to queue up cells to send to the client. The Linux OOM killer will kill the tor
+process when the machine runs out of memory, disabling that node.
+
+The solution to the attack is to selectively kill tor circuits when the machine
+is about a critical memory usage amount.
+
 
 \bibliographystyle{IEEEtranN}
 \bibliography{references}
