@@ -3,7 +3,7 @@
 
 \title{[Name of framework]: A Proposed Framework For Standardised Implementation of Countermeasures Against Attacks on Tor} 
 \date{today}
-\author{Jenna FinlaysonKurt McAlpine}
+\author{Jenna Finlayson~~Kurt McAlpine}
 
 \begin{document} 
 \maketitle
@@ -60,6 +60,24 @@ process when the machine runs out of memory, disabling that node.
 The solution to the attack is to selectively kill tor circuits when the machine
 is about a critical memory usage amount.
 
+\section{Extending Tor with a Scripting Language}
+Currently the Tor project is a significantly large application written in C,
+with around 216000 lines of code. The size of the project and the lack of an
+extensible API provides a high barrier of entry to making modifications to the
+project. We want to make it easier for developers and researchers to extend tor
+especially to implement countermeasures mentioned in academic articles. If it
+was easier to modify tor, we could reduce the time it takes for security issues
+to be resolved once they are discovered.
+
+We propose exposing the internals of Tor with a scripting language such as
+Python. This will allow developers and reseachers to write small amounts of code
+to extend Tor to fix security issues. The choice of Python is to reduce the
+complexity of making a modification to Tor, C is an unforgiving language and
+requires a high degree of experience to write robust and secure code.
+
+Several areas of the Tor internals will need to be exposed by the Python plugin
+architecture. To implement a plugin that circumvents the ``Sniper Attack''
+circuits and the ability to kill them need to be exposed by the language.
 
 \bibliographystyle{IEEEtranN}
 \bibliography{references}
