@@ -1,50 +1,52 @@
-\documentclass[9pt,technote]{IEEEtran}
+\documentclass[9pt,technote]{IEEEtran} 
 \usepackage[numbers]{natbib}
 
-\title{[Name of framework]: A Proposed Framework For Standaradised Implementation of Countermeasures Against Attacks on Tor}
-\date{\today}
-\author{Jenna Finlayson\\Kurt McAlpine}
+\title{[Name of framework]: A Proposed Framework For Standaradised Implementation of Countermeasures Against Attacks on Tor} 
+\date{today}
+\author{Jenna FinlaysonKurt McAlpine}
 
-\begin{document}
+\begin{document} 
 \maketitle
 
-\begin{abstract}
-Tor provides anonymity by routing communications within layers of encryption. A
-vulnerability in the Tor network is the indirect rate reduction attack. This
-attack can reduce anonymity by monitoring client connections and spoofing
-traffic on Tor exit relay. By spoofing messages to an exit relay at a rate
-slower than the client was previously receiving messages, a rate reduction can
-be observed. This indicates that the client is likely to be communicating with
-that specific server. We propose a method to counteract this attack by
-extending Tor to mask the rate of messages being received.
-\end{abstract}
+\begin{abstract} Tor provides anonymity by routing communications within layers
+of encryption. A vulnerability in the Tor network is the indirect rate reduction
+attack. This attack can reduce anonymity by monitoring client connections and
+spoofing traffic on Tor exit relay. By spoofing messages to an exit relay at a
+rate slower than the client was previously receiving messages, a rate reduction
+can be observed. This indicates that the client is likely to be communicating
+with that specific server. We propose a method to counteract this attack by
+extending Tor to mask the rate of messages being received. \end{abstract}
 
-\section{Introduction}
+\section{Introduction} 
+The majority of surveillance that occurs today is the
+surveillance of data and communications on the internet
+\cite{diffie2008brave}. Since the 2013 leaks from Edward Snowden we now know the scale of and government power behind mass internet
+surveillance. It is therefore important for internet users to have a way to
+protect themselves from certain types of surveillance that can expose their identities and online behaviour. One solution to this is to use an anonymity network such as Tor. Tor allows anonymous communication by using layers of encryption and routing network
+traffic between multiple volunteer operated onion routers \cite{tor}. This aids in the concealment of the
+user's physical location, identity, and usage from potential surveyors. Too keep
+safe from government surveillance it is important to employ countermeasures for the security
+vulnerabilities in Tor as they are identified.
 
-The majority of surveillance that occurs today is the surveillance of data and
-communications on the internet\cite{diffie2008brave}. Since the 2013 leaks from
-Edward Snowden we now know for certain the scale and government power behind
-mass internet surveillance. So it is important for us to have a way to protect
-ourselves from certain types of surveillance. One of the solutions is to use an
-anonymity network such as Tor. Tor allows anonymous communications by
-encrypting and routing network traffic between multiple volunteer operated
-onion routers. This conceals the users physical locations and usage from
-potential surveyors. Too keep ourselves safe from government surveillance it is
-important to reduce the vulnerabilities in Tor is they become discovered. One
-such vulnerability found in Tor is something called a ``Rate Reduction Attack''
-whereby TCP traffic can be spoofed on a Tor exit node and the location of a Tor
-user can be identified\cite{gilad2012spying}.
+New security attacks on Tor are being discovered frequently and are often published with specific ways to counteract them. Most of these proposed countermeasures come at a cost to the performance [and other things] of Tor and require implementations that affect the Tor source code directly. This requires knowledge of the Tor architecture and code base in order to implement the countermeasure, and then needs to be integrated and deployed in Tor itself. This process takes time and therefore leaves Tor open to the identified vulnerabilities until it is completed.
 
-% Here's all the citations we have to use.
+% Here's all the citations we have to use. 
 \cite{hayesguard}\cite{gilad2012spying}\cite{sun2015raptor}\cite{biryukov2012torscan}\cite{jansen2014sniper}\cite{tor}
 
-\section{Related Work}
-In order to show the types of attacks that can be used to reduce the anonymity of the Tor network, we summarise papers that identify some of these types of attacks and the authors' proposed countermeasures for them. We then identify flaws in the implementation and potential deployment problems of these countermeasures. We could not find any literature about any existing standardised frameworks like the one we propose and have therefore focused on identifying different attack types that our framework can work with.\\
+\section{Related Work} In order to show the types of attacks that can be used to
+reduce the anonymity of the Tor network, we summarise papers that identify some
+of these types of attacks and the authors' proposed countermeasures for them. We
+then identify flaws in the implementation and potential deployment problems of
+these countermeasures. We could not find any literature about any existing
+standardised frameworks like the one we propose and have therefore focused on
+identifying different attack types that our framework can work with.\\
 
-\citeauthor{gilad2012spying} have detailed a type of attack on Tor that uses eavesdropping only on the client, while carrying out an active attack on the exit relay of a Tor circuit.
+\citeauthor{gilad2012spying} have detailed a type of attack on Tor that uses
+eavesdropping only on the client, while carrying out an active attack on the
+exit relay of a Tor circuit in order to identify communicating peers.
 
 
-\bibliographystyle{plain}
+\bibliographystyle{plain} 
 \bibliography{references}
 
 \end{document}
