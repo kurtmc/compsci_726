@@ -1,0 +1,11 @@
+http://stackoverflow.com/questions/2768104/how-to-create-a-flexible-plug-in-architecture
+
+Basically it's says that having scripting language to expose internals of the
+application rather than an eclipse style API which requires a lot of overhead
+such as xml config stuff and learning a complex API. Where as a scripting
+language is easy to make a small script that does something useful for the
+application.
+
+So the idea could be to extend to and expose some of the internals using
+python. This way we have a full language and we can implement things on top of
+tor using python..
