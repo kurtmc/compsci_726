@@ -1,6 +1,7 @@
 \documentclass[9pt,technote]{IEEEtran} 
 \usepackage[numbers]{natbib}
 \usepackage{graphicx}
+\usepackage{subfig}
 
 \title{TorScript: A Proposed Framework For Standardised Implementation of Countermeasures Against Attacks on Tor} 
 \date{today}
@@ -93,21 +94,31 @@ AS-level adversaries to deanonymise Tor users by increasing the amount of ASes
 that can correlate the data.
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.5\textwidth]{images/routing1.png}
+\subfloat{{\includegraphics[width=0.2\textwidth]{images/routing1.png}}}
+~~
+\subfloat{{\includegraphics[width=0.2\textwidth]{images/routing2.png}}}
 \label{fig:as-routing}
-\caption{AS-level surveillance\cite{sun2015raptor}}
+\caption{AS-level surveillance \cite{sun2015raptor}}
 \end{figure}
 In figure \ref{fig:as-routing} you can see if you need to capture traffic both
 ways only AS5 can perform the attack, but if only one direction is needed AS3,
 AS4 and AS5 can perform the attack.
 \subsubsection{BGP Churn}
 The internet paths between clients and Tor relays change over time due to
-physical changes in the network topology caused by system failures, system
-recoveries, the introduction of new routers and links, and changes to AS-level
-routing policies. These changes can increase the ability of ASes to observe Tor
-traffic. For example in [Figure 2 from the paper] you can see that only AS5 can
-compromise anonymity, but when the link between AS5 and AS4 is destroyed, AS5
-and AS3 can compromise anonymity.
+physical changes in the network topology. This can be caused by system failures,
+system recoveries, the introduction of new routers and links, and changes to
+AS-level routing policies. These changes can increase the ability of ASes to
+observe Tor traffic. For example in figure \ref{fig:as-churn} you can see that
+only AS5 can compromise anonymity, but when the link between AS5 and AS4 is
+destroyed, AS5 and AS3 can compromise anonymity.
+\begin{figure}[h!]
+\centering
+\subfloat{{\includegraphics[width=0.2\textwidth]{images/churn1.png}}}
+~~
+\subfloat{{\includegraphics[width=0.2\textwidth]{images/churn2.png}}}
+\label{fig:as-churn}
+\caption{Network topology changes \cite{sun2015raptor}}
+\end{figure}
 \subsubsection{BGP Hijack}
 The previous attacks where passive, but it is also possible for AS's to launch
 active attacks. It is possible for an AS to deviate from the default routing
