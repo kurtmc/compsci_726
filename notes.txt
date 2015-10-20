@@ -9,3 +9,77 @@ application.
 So the idea could be to extend to and expose some of the internals using
 python. This way we have a full language and we can implement things on top of
 tor using python..
+
+RAPTOP: Routing Attacks on Privacy in Tor.
+BGP - Border Gateway Protocol.
+AS - Autonomous Systems
+Asymmetric Traffic Analysis and BGP Churn:
+- Raptor asymmetric traffic analysis attacks can deanonymize a user with a 95%
+accuracy with no false positives.
+- As long as the adversary is able to observe any direction of the traffic
+  (i.e. forward only, backward only or both), they can deanonymise users.
+- This attack is a more adavanced version of the conventional end-to-end timing
+  anaysis attack, but instead of requiring to observe both forward and backward
+communications, they only require one direction. They still need to observe at
+both ends i.e. client to entry and exit to server.
+Natural Churn:
+- Internet paths between clients and guard relays change over time due to
+  physical changes in topology, for example failures, recoveries and
+introduction of thew routers and links as well as AS-level routing policies.
+- These changes can increase the power of AS surveileance. For example Figure 2
+  from paper.
+BGP Hijack:
+- AS-level adversaries are capable of launching active attacks
+- Can deviate from honest routing behaviour
+- Can manipulate inter-domain routing by advertising incorrect BGP control
+  messages
+- can hijack an IP prefix by adversiting the prefix as its own. The attack
+  causes a fraction of Internet traffic destined to teh prefix to be captured
+by the adversary
+- This increases the chance of an AS-level adversary to be able to observe
+  traffic between clients and entry guards and servers and exit relays.
+- The traffic is silently dropped without telling the source that the data did
+  not reach the recipient. Resulting in the connection being dropped.
+BGP Interceptions:
+- They found that 90% of Tor relays are vulnerable to interception attacks.
+  They also demonstrated the feasibility of the attack.
+- Allows malicious AS to become an intermediate AS in the path towards the
+  guard relay, i.e. after interception the traffic is routed bac to the actual
+guard relay.
+- This attack allows the connection to stay alive.
+- Allowing malicious AS to deanonymize the client via asymmetric traffic
+  analysis.
+- They demontrate this attack against a live Tor relay.
+Countermeasures:
+- They desigs a monitoring framework for the Tor network tthat aims to detect
+suspicious AS-level changes toward Tor prefixes using both BGP and Traceroute
+monitoring.
+- AS-Aware Path Selection:
+	- To minimize opportunities for AS-level traffic analysis
+	- Tor network can monitor path dynamics between clients and guards, and
+	  exit relays and destinations
+	- each relay could publish the list of any ASes it used to reach each
+	  destination prefix in the last month
+	- This info can be distributed to all Tor clients
+	- Tor clients can use this information for relay selection
+	- They could select relays such that the same AS does not appear in
+	  both the first and the last segments of the IP address
+- Preventing Routing Attacks in Tor:
+	- Adversiting /24 Tor prefixes:
+		- Over 90% of Tor relays have a prefix length sorter than /24
+		- This is vulnerable to AS-level BGP hijack or interception attack
+		- AS's typically filter route advertisements of prefix longer than /24
+		- so adversaries will no be able to launch a more specific hijack or
+	  interception attack
+	- Favouring closer guard relays:
+		- Even if a Tor relay advertises a /24 prefix, an adversary can
+		  launch a specific prefix hijack interception attack
+		- in this case the impact of the attack is localized around the
+		  attackers AS since the route is not globally propagated
+		- Tor clients should their guard relays by with a shorter
+		  AS-level path between them.
+		- Ths mitigates the risk to Tor clients due to an specific
+		  prefix attack
+		- Also reduces the risk of asymmetric traffic analysis and BGP
+		  churn
+
