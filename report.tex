@@ -172,8 +172,7 @@ Traffic Analysis Attack.
 	attack as well as the risk of asymmetric traffic analysis and BGP churn.
 \end{itemize}
 
-
-\section{Extending Tor with a Scripting Language}
+\section{TorScript: A Proposed Plugin Architecture for Tor}
 Currently the Tor project is a significantly large application written in C,
 with around 216000 lines of code. The size of the project and the lack of an
 extensible API provides a high barrier of entry to making modifications to the
@@ -188,22 +187,22 @@ code to extend Tor to fix security issues. The choice of Python is to reduce the
 complexity of making a modification to Tor, C is an unforgiving language and
 requires a high degree of experience to write robust and secure code.
 
-\section{Exposing Important Sections of Tor}
+\subsection{Exposing Important Sections of Tor}
 Several areas of the Tor internals will need to be exposed by the Python plugin
 architecture. In this section we describe the main areas of interest in the Tor
 code that will need to be exposed to implement Python script plugins to prevent
 the vulnerabilities described in this paper.
-\subsection{Rate Reduction Attack}
-\subsection{Guard Selection Attack}
-\subsection{Tor Scanning Attacks}
-\subsection{Sniper Attack}
+\subsubsection{Rate Reduction Attack}
+\subsubsection{Guard Selection Attack}
+\subsubsection{Tor Scanning Attacks}
+\subsubsection{Sniper Attack}
 For the countermeasure in the Sniper Attack control over circuits in needed as
 well as access to the amount of free memory. Free memory can be exposed from the
 operating system using the standard Python library \texttt{os} and circuits can
 be closed through the method \texttt{circuit\_mark\_for\_close} in the
 \texttt{circuitlist.h} header. These can easily be exposed with a Python
 binding.
-\subsection{Routing Attacks}
+\subsubsection{Routing Attacks}
 The countermeasures described in this section require collecting data about the
 location of Autonomous Systems and disributing it to clients, making relay path
 selection based on that information, changing the prefix length and favouring
