@@ -71,103 +71,73 @@ By employing the countermeasures described in the first two attacks, the One-Hop
 
 \subsection{Sniper Attack}
 The sniper attack outlined by \citeauthor{jansen2014sniper} describes a denial
-of service attack that can be targeted to any Tor node. The attack is relatively
-cheap where the attacker only needs 92 KiB/s upstream to start consuming memory
-at 2187 KiB/s. The way the attack works is by starting a large download over the
-Tor network, then stop reading from the entry relay and then maliciously sending
-\texttt{SENDME} requests to the exit relay, this forces the entry relay to queue
-up cells to send to the client. The Linux OOM killer will kill the tor process
-when the machine runs out of memory, disabling that node.
+of service attack that can be targeted to any Tor node. The attack is relatively cheap as the attacker only needs 92 KiB/s upstream to start consuming memory at 2187 KiB/s. The way the attack works is by starting a large download over the Tor network, and then stopping the reading from the entry relay. The attacker then maliciously sends \texttt{SENDME} requests to the exit relay, forcing the entry relay to queue up cells to send to the client. The Linux OOM killer will kill the tor process when the machine runs out of memory, disabling that node in the Tor network.
 
-The countermeasure for this attack involves monitoring the memory free memory of
-the machine Tor is running on, and selectively killing circuits when the free
-memory is below a certain threshold.
+The countermeasure suggested by \citeauthor{jansen2014sniper} for this attack involves monitoring the amount of free memory a machine that is used as a Tor node has, and selectively killing circuits when the amount of free memory is below a certain threshold. This would require the modification of the Tor source code.
 
 \subsection{Routing Attacks}
-A suite of attacks described by \citeauthor{sun2015raptor} includes attacks that
-can be performed by Autonomous System (AS) adversaries. Here we describe the
-high level details of each of the attacks described in the paper.
+A suite of attacks described by \citeauthor{sun2015raptor} includes attacks that can be performed by Autonomous System (AS) adversaries. Here we describe the high level details of each of the attacks described in the paper.
+
 \subsubsection{Asymmetric Traffic Analysis Attack}
-This attack extends the well known ``end-to-end timing analysis attack'' whereby
-communications are observed between the client and the entry relay as well as
-observing traffic between the exit relay and the destination, the attacker can
-correlate the timing data to detect if the client is communicating with the
-destination. In the conventional attack the adversary needs to monitor both the
-forward traffic from the client to the entry relay, and the exit relay to the
-destination relay as well as the backward traffic from the entry relay to the
-client, and the destination to the exit relay. However the forward and backward
-traffic routes are often not the same. \citeauthor{sun2015raptor} describes the
-asymmetric traffic analysis attack as only needing to observe traffic in one of
-the directions to correlate the data and determine if the client is
-communicating with the destination. This attack increases the ability of
-AS-level adversaries to deanonymise Tor users by increasing the amount of ASes
-that can correlate the data.
+This attack extends the well known ``end-to-end timing analysis attack'' whereby communication is observed between the client and the entry relay as well as the traffic between the exit relay and the destination. Using this information the attacker can correlate the timing data to determine whether the client is communicating with the destination. In the conventional attack the adversary needs to monitor both the forward traffic from the client to the entry relay and from the exit relay to the destination relay. Additionally, the backward traffic from the entry relay to the client, and from the destination to the exit relay needs to be monitored. This is difficult as the routes for the forward and backward traffic are often not the same. 
+
+\citeauthor{sun2015raptor} describes the asymmetric traffic analysis attack as only needing to observe traffic in one of the directions to correlate the data and determine if the client is communicating with the destination. This attack increases the ability of AS-level adversaries to deanonymise Tor users by increasing the amount of ASs that can correlate the data.\\
+
 \begin{figure}[h!]
 \centering
 \subfloat{{\includegraphics[width=0.2\textwidth]{images/routing1.png}}}
 ~~
 \subfloat{{\includegraphics[width=0.2\textwidth]{images/routing2.png}}}
-\label{fig:as-routing}
 \caption{AS-level surveillance \cite{sun2015raptor}}
+\label{fig:as-routing}
 \end{figure}
-In figure \ref{fig:as-routing} you can see if you need to capture traffic both
-ways only AS5 can perform the attack, but if only one direction is needed AS3,
-AS4 and AS5 can perform the attack.
+
+In figure \ref{fig:as-routing} it is possible to see that if you need to capture traffic in both directions, only AS5 can perform the attack, but if only one direction is needed, AS3, AS4, and AS5 can perform the attack.\\
+
 \subsubsection{BGP Churn}
 The internet paths between clients and Tor relays change over time due to
-physical changes in the network topology. This can be caused by system failures,
-system recoveries, the introduction of new routers and links, and changes to
-AS-level routing policies. These changes can increase the ability of ASes to
-observe Tor traffic. For example in figure \ref{fig:as-churn} you can see that
-only AS5 can compromise anonymity, but when the link between AS5 and AS4 is
-destroyed, AS5 and AS3 can compromise anonymity.
+physical changes in the network topology. This is known as the Border Gateway Protocol (BGP) Churn. This can be caused by system failures, system recoveries, the introduction of new routers and links, and changes to AS-level routing policies. These changes can increase the ability of ASs to observe Tor traffic. For example, in figure \ref{fig:as-churn} it can be seen that only AS5 can compromise anonymity, but when the link between AS5 and AS4 is destroyed, AS5 and AS3 can compromise anonymity.\\
+
 \begin{figure}[h!]
 \centering
 \subfloat{{\includegraphics[width=0.2\textwidth]{images/churn1.png}}}
 ~~
 \subfloat{{\includegraphics[width=0.2\textwidth]{images/churn2.png}}}
-\label{fig:as-churn}
 \caption{Network topology changes \cite{sun2015raptor}}
+\label{fig:as-churn}
 \end{figure}
+
 \subsubsection{BGP Hijack}
-The previous attacks that were described were passive, but it is also possible
-for AS's to launch active attacks. It is possible for an AS to deviate from the
-default routing behaviour by manipulating inter-domain routing by communicating
-fake BGP control messages. An AS can hijack an IP prefix by announcing the
-prefix as its own. This attack will cause some small percentage of the internet
-traffic that was destined to the prefix to be collected by the malicious AS.
-This allows ASs to increase their chance of observing traffic between clients
-and entry relays, and exit relays and destinations. However the disadvantage of
-this attack is that the traffic is silently dropped without telling the source
-that the data has not reached the recipient resulting in the connection being
-dropped.
+The previous two attacks that were described were passive, but it is also possible for ASs to launch active attacks. It is possible for an AS to deviate from the default routing behaviour by manipulating inter-domain routing by communicating fake BGP control messages. An AS can hijack an IP prefix by announcing the prefix as its own. This attack will cause some small percentage of the internet traffic that was destined to the prefix to be collected by the malicious AS. This allows ASs to increase their chance of observing traffic between clients and entry relays, and exit relays and destinations. However, the disadvantage of this attack is that the traffic is silently dropped without telling the source that the data has not reached the recipient resulting in the connection being dropped.\\
+
 \subsubsection{BGP Interception}
 The authors describe an attack called BGP Interception which allows an AS to be
 an intermediate between the entry relay and the client as well as between the
 exit relay and the destination. The advantage of BGP Interception is that the
 connection is not dropped allowing the connection to stay alive, unlike the BGP
 Hijack. It is shown that 90\% of Tor relays are vulnerable to interception
-attacks. This attack increase the ability of an AS to perform the Asymmetric
-Traffic Analysis Attack. 
+attacks. This attack increases the ability of an AS to perform the Asymmetric
+Traffic Analysis Attack.\\ 
+
 \subsubsection{Countermeasures}
 \begin{itemize}
 \item \textbf{AS-Aware Path Selection:} Selecting the Tor relays that will be in
-	the path allows us to minimise the chances for AS-level traffic
+	the path allows us to minimise the potential for AS-level traffic
 	analysis. The Tor network can monitor the path dynamics between entry
 	relays and clients as well as between exit relays and destinations. This
 	data can be distributed to all Tor clients and then Tor clients can use
 	this information to make relay path selections. Tor clients would select
-	relays such that the same AS in not in first and last segment of the IP
+	relays such that the same AS is not in the first and last segment of the IP
 	address.
 \item \textbf{Advertising /24 Tor prefixes:} More than 90\% of Tor relays use a
 	prefix length shorter than /24. This makes them vulnerable to the BGP
-	hijack or interception attacks since AS's usually filter route
-	advertisements with a prefix longer than /24.
+	hijack or interception attacks since ASs usually filter route
+	advertisements with a prefix longer than /24. To counteract this, the prefix length used should be longer than /24.
 \item \textbf{Favouring Closer Guard Relays:} Even if a Tor relay advertises a
 	/24 prefix, it is still possible for an adversary to launch a specific
-	prefix hijack or interception attack. If this is the case the impact is
-	limited to localised attackers AS since the route is not globally
-	propagated. Tor client should choose their guard relays with a shorter
+	prefix hijack or interception attack. If this is the case, the impact is
+	limited to localised attacker's ASs since the route is not globally
+	propagated. Tor clients should choose their guard relays with a shorter
 	AS-level path between them. This reduces the risk of a specific prefix
 	attack as well as the risk of asymmetric traffic analysis and BGP churn.
 \end{itemize}
