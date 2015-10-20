@@ -41,7 +41,16 @@ The countermeasures that \citeauthor{gilad2012spying} have identified for this t
 An ideal countermeasure for this type of attack would be to modify Tor itself so that modification of destination peers is not necessary. We propose that Tor implement the ability to control the rate of sending packets so that consecutive spoofed messages cannot cause congestion events as easily, and in the case that they do, the reduction in rate is not so observable on the origin peer.
 
 \subsection{Guard Selection Attack}
-Prior to 2015, Tor's guard selection strategy was to have each user be allocated a small set of guard nodes from which three of them would be used for extended periods. In 2015 and later, Tor's default guard selection strategy now involves users selecting one guard node from a set of nodes that are all highly available and have a high bandwidth, and using this single node for up to nine months. Both of these selection strategies have security vulnerabilities that allow attackers to identify communicating peers.
+Prior to 2015, Tor's guard selection strategy was to have each user be allocated a small set of guard nodes from which three of them would be used for extended periods. In 2015 and later, Tor's default guard selection strategy now involves users selecting one guard node from a set of nodes that are all highly available and have a high bandwidth, and using this single node for up to nine months. Both of these selection strategies have security vulnerabilities that allow attackers to identify communicating peers as identified by \citeauthor{hayesguard}.
+
+The attacks identified that involve these guard selection strategies include:
+\begin{itemize}
+\item \textbf{Direct Observation:} With one corrupt guard node and a small selection of corrupt exit relays, at least one circuit can be identified for a particular user.
+\item \textbf{Guard Fingerprinting:} Identifying the set of guards used by a user, which is likely to be unique to that user and hence act as a fingerprint.
+\item \textbf{Statistical Disclosure Attacks:} In the case that a given guard set is only used by a small number of users, it is possible to discover long term identifiers through analysing their patterns of actions.
+\end{itemize}
+
+\citeauthor{hayesguard} have proposed a new method for guard selection involving the use of ``Guard Sets''.
 
 \subsection{Sniper Attack}
 The sniper attack outlined by \citeauthor{jansen2014sniper} describes a denial
