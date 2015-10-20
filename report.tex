@@ -42,7 +42,7 @@ The attack is a variant of the Idle Scan attack, however instead of trying to fi
 
 The countermeasures that \citeauthor{gilad2012spying} have identified for this type of attack on Tor include discarding packets that do not have valid sequence numbers and also increasing the size of the congestion window so that it takes longer to cause a congestion event. Increasing the size of the congestion window on the destination peer would not be a viable robust solution as it would require all servers that could possibly be being communicated with to implement this change. It would also change the behaviour of real congestion events which could cause a loss in network performance. Similarly, by discarding out of sequence TCP packets, congestion control of actual congestion events would be modified and this would also be likely to affect network performance. 
 
-An ideal countermeasure for this type of attack would be to modify Tor itself so that modification of destination peers is not necessary. We propose that Tor implement the ability to control the rate of sending packets so that consecutive spoofed messages cannot cause congestion events as easily, and in the case that they do, the reduction in rate is not so observable on the origin peer.
+An ideal countermeasure for this type of attack would be to modify Tor itself so that modification of destination peers is not necessary. We propose that Tor implement the ability to control the rate of sending packets so that the reduction in rate is not so observable on the origin peer.
 
 \subsection{Guard Selection Attack}
 Prior to 2015, Tor's guard selection strategy was to have each user be allocated a small set of guard nodes from which three of them would be used for extended periods. In 2015 and later, Tor's default guard selection strategy now involves users selecting one guard node from a set of nodes that are all highly available and have a high bandwidth, and using this single node for up to nine months. Both of these selection strategies have security vulnerabilities that allow attackers to identify communicating peers as identified by \citeauthor{hayesguard}.
@@ -161,10 +161,13 @@ code that will need to be exposed to implement Python script plugins to prevent
 the vulnerabilities described in section \ref{sec:relatedwork}.\\
 
 \subsubsection{Rate Reduction Attack}
+To implement our proposed countermeasure for the rate reduction attack described in \cite{gilad2012spying} a plugin for making the rate of message sending consistent would need to be written. This would not require any interacting with Tor but the plugin itself can automate the sending.
 
 \subsubsection{Guard Selection Attack}
+This would require a plugin for the path selection hook that changes which nodes are used for the entry nodes. This would require exposure to the client tor code for selecting paths.
 
 \subsubsection{Tor Scanning Attacks}
+Use the connection hook to create a new connection and identify connections by both parameters, not just one. Also just send noise like in the rate reduction attack. Needs access to the channel_tls_handle_incoming in the channeltls.h file.
 
 \subsubsection{Sniper Attack}
 For the countermeasure suggested by \citeauthor{jansen2014sniper} for Sniper Attacks, control over circuits in needed as well as access to the amount of free memory. Free memory can be exposed from the operating system using the standard Python library \texttt{os} and circuits can
@@ -200,7 +203,6 @@ the corresponding directory. The hook directories are proposed as follows:
 These hooks can be added to Tor simply by making modification to
 \texttt{or/main.c} in the Tor codebase. The startup and async hooks can be added
 to the top of the \texttt{main} function.
-
 
 
 \section{Conclusion}
