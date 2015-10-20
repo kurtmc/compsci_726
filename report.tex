@@ -206,6 +206,8 @@ the corresponding directory. The hook directories are proposed as follows:
 	selection algorithm used by Tor clients.
 \item \texttt{connection/} This hook runs before a connection is established
 	between Tor nodes.
+\item \texttt{circuit\_creation/} This hook runs before a circuit is created in
+	Tor.
 \end{itemize}
 These hooks can be added to Tor simply by making modification to
 \texttt{or/main.c} in the Tor codebase. The startup and async hooks can be added
