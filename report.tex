@@ -54,6 +54,9 @@ The attacks identified that involve these guard selection strategies include:
 
 \citeauthor{hayesguard} have designed an algorithm to automatically assign guards and users to guard sets. This means that there is little left to counteracting these attacks other than writing the implementation into the Tor application. This, as explained earlier, is not a trivial problem due to the complexity of the Tor code base. Once it is implemented, it would take time to be approved and accepted into the code base as well then getting deployed.
 
+\subsection{Tor Scanning Attacks}
+TODO
+
 \subsection{Sniper Attack}
 The sniper attack outlined by \citeauthor{jansen2014sniper} describes a denial
 of service attack that can be targeted to any Tor node. The attack is relatively cheap where the attacker only needs 92 KiB/s upstream to start consuming memory at 2187 KiB/s. The way the attack works is by starting a large download over the Tor network, then stop reading from the entry relay and then maliciously sending \texttt{SENDME} requests to the exit relay, this forces the entry relay to queue up cells to send to the client. The Linux OOM killer will kill the tor process when the machine runs out of memory, disabling that node.
