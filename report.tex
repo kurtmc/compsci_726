@@ -197,6 +197,9 @@ the corresponding directory. The hook directories are proposed as follows:
 \item \texttt{path\_selection/} This allows for modification of the path
 	selection algorithm used by Tor clients.
 \end{itemize}
+These hooks can be added to Tor simply by making modification to
+\texttt{or/main.c} in the Tor codebase. The startup and async hooks can be added
+to the top of the \texttt{main} function.
 
 
 
