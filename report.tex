@@ -12,10 +12,10 @@
 
 \begin{abstract}
 Tor provides anonymity by routing communications within layers of encryption.
-There are an increasing amount of vulnerabilities that are discovered in Tor.
+There are an increasing number of vulnerabilities that are frequently discovered in Tor.
 With this knowledge it is important to circumvent the vulnerabilities as quickly
 as possible. Modifying Tor to add small extentions requires significant C
-programming skills so it is not always possible to extend Tor easily. We propose TorScript a Python based plugin architecture for Tor
+programming skills so it is not always possible to extend Tor easily. There is also overhead involved in integrating changes into Tor and getting it deployed. We propose TorScript, a Python based plugin architecture for Tor
 that allows developers and researchers to easily and quickly make modifications
 to Tor for the purposes of increasing security.
 \end{abstract}
@@ -30,7 +30,7 @@ New security attacks on Tor are being discovered frequently and are often publis
 We propose TorScript, a Python based plugin architecture for standardised implementation of
 countermeasures against attacks on Tor. The plugin architecture allows for
 developers and researchers to implement Python scripts to hook into and access
-the internals of Tor.
+the internals of Tor. The outline for the rest of the paper is as follows: in section \ref{sec:relatedwork} we outline some vulnerabilities recently identified in Tor and the proposed countermeasures for them identified by the respective authors. In section \ref{sec:proposed} we then use these countermeasures to identify parts of the Tor code base that would need to be exposed to our plugin architecture to implement the countermeasures efficiently. We then outline a proposed architecture for this contribution.
 
 \section{Related Work} 
 \label{sec:relatedwork}
@@ -146,6 +146,7 @@ Traffic Analysis Attack.\\
 \end{itemize}
 
 \section{TorScript: A Proposed Plugin Architecture for Tor}
+\label{sec:proposed}
 Currently the Tor project is a significantly large application written in C,
 with around 216000 lines of code. The size of the project and the lack of an
 extensible API provides a high barrier of entry to making modifications to the
