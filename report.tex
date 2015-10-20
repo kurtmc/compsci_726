@@ -114,7 +114,23 @@ Traffic Analysis Attack.
 \begin{itemize}
 \item \textbf{AS-Aware Path Selection:} Selecting the Tor relays that will be in
 	the path allows us to minimize the chances for AS-level traffic
-	analysis.
+	analysis. The Tor network can monitor the path dynamics between guards
+	and clients as well as between exit relays and destinations. This data
+	can be distributed to all Tor clients and then Tor clients can use this
+	information to make relay selections. Tor clients would select relays
+	such that the same AS in not in first segment of the IP address as well
+	as in the last segment of the IP address.
+\item \textbf{Advertising /24 Tor prefixes:} More than 90\% of Tor relays use a
+	prefix length shorter than /24. This makes them vulnerable to the AS BGP
+	hijack or interception attacks since AS's usually filter router
+	advertisments with a prefix longer than /24.
+\item \textbf{Favouring Closer Guard Relays:} Even if a Tor relay advertises a
+	/24 prefix, it is still possible for an adversary to launch a specific
+	prefix hijack ro interception attack. If this is the case the impack is
+	limited to localized attackers AS since the route is not globally
+	propageted. Tor client should choose their guard relays with a shorter
+	AS-level path between them. This reduces the risk of a specific prefix
+	attack as well as the risk of asymmetric traffic analysis and BGP churn.
 \end{itemize}
 
 
