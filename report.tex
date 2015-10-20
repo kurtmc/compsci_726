@@ -185,13 +185,13 @@ The countermeasures suggested for Routing Attacks by \citeauthor{sun2015raptor} 
 This will require exposing the path selection controls for the client and exposing the prefix length controls on the Tor server.
 
 \subsection{Architecture}
-Several different hooks will be available to a plugin developer. Depending on
-the hooks the developer wants to make use of the developer will add a script to
+Several different hooks will be made available to a plugin developer. Depending on
+the hooks the developer wants to make use of, the developer will add a script to
 the corresponding directory. The hook directories are proposed as follows:
 \begin{itemize}
-\item \texttt{startup/} All the scripts in this directory are run before Tor is
-	running, so that certain paramters may be set.
-\item \texttt{async/} For scripts that will be running continuosly while Tor is
+\item \texttt{startup/} All the scripts in this directory are run before Tor starts
+	running so that certain parameters may be set.
+\item \texttt{async/} For scripts that will be running continuously while Tor is
 	running. This allows the plugin developers to write plugins that change
 	Tors behaviour on the fly.
 \item \texttt{path\_selection/} This allows for modification of the path
