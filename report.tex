@@ -189,6 +189,15 @@ The countermeasures suggested for Routing Attacks by \citeauthor{sun2015raptor} 
 This will require exposing the path selection controls for the client and exposing the prefix length controls on the Tor server.
 
 \subsection{Architecture}
+The proposed structure for TorScript involves plugins calling functions exposed in a python library. The python library then calls corresponding functions in the Tor source code. An example of this with a sample plugin file named \texttt{plugin.py} can be seen in figure \ref{fig:structure}.\\
+
+\begin{figure}[h!]
+\centering
+\subfloat{{\includegraphics[width=0.3\textwidth]{images/basicCall.png}}}
+\caption{Proposed Structure of TorScript}
+\label{fig:structure}
+\end{figure}
+
 Several different hooks will be made available to a plugin developer. Depending on
 the hooks the developer wants to make use of, the developer will add a script to
 the corresponding directory. The hook directories are proposed as follows:
@@ -209,7 +218,7 @@ These hooks can be added to Tor simply by making modification to
 \texttt{or/main.c} in the Tor codebase. The startup and async hooks can be added
 to the top of the \texttt{main} function.
 
-An example of the execution timeline of these hooks can be seen in \ref{fig:timeline}.
+An example of the execution timeline of these hooks can be seen in figure \ref{fig:timeline}.
 \begin{figure}[h!]
 \centering
 \subfloat{{\includegraphics[width=0.5\textwidth]{images/timeline.png}}}
