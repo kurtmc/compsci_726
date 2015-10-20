@@ -31,9 +31,6 @@ countermeasures against attacks on Tor. The plugin architecture allows for
 developers and researchers to implement Python scripts to hook into and access
 the internals of Tor.
 
-% Here's all the citations we have to use. 
-\cite{hayesguard}\cite{gilad2012spying}\cite{sun2015raptor}\cite{biryukov2012torscan}\cite{jansen2014sniper}\cite{tor}
-
 \section{Related Work} 
 \label{sec:relatedwork}
 In order to show the types of attacks that can be used to reduce the anonymity of the Tor network, we summarise papers that identify some of these types of attacks and the authors' proposed countermeasures for them. We then identify flaws in the implementation and potential deployment problems of these countermeasures. We could not find any literature about any existing standardised frameworks like the one we propose and have therefore focused on identifying different attack types that our framework can work with.\\
@@ -223,6 +220,7 @@ which Tor operators may choose which plugins they would want to install based
 on their needs. It also allows researchers to actually implement the solutions
 they suggest in their papers allowing them to robustly verify their results.
 
+\nocite{*}
 \bibliographystyle{IEEEtranN}
 \bibliography{references}
 
