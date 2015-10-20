@@ -14,7 +14,7 @@
 Tor provides anonymity by routing communications within layers of encryption.
 There are an increasing amount of vulnerabilities that are discovered in Tor.
 With this knowledge it is important to circumvent the vulnerabilities as quickly
-as possible. We propose TorScript a Python based plugin architecture for Tor
+as possible. We propose TorScript, a Python based plugin architecture for Tor
 that allows developers and researchers to easily and quickly make modifications
 to Tor for the purposes of increasing security.
 \end{abstract}
@@ -26,14 +26,14 @@ safe from government surveillance it is important to employ countermeasures for 
 
 New security attacks on Tor are being discovered frequently and are often published with specific ways to counteract them. Most of these proposed countermeasures come at a cost to network performance and performance of Tor and require implementations in the Tor source code directly. This requires knowledge of the Tor architecture and code base in order to implement the countermeasure, and then needs to be integrated and deployed in Tor itself. This process takes time and is not a simple process due to Tor's complexity so it therefore leaves Tor open to the identified vulnerabilities for potentially very long periods of time. \\
 
-We propose TorScript, a framework for standardised implementation of
+We propose TorScript, a Python based plugin architecture for standardised implementation of
 countermeasures against attacks on Tor. The plugin architecture allows for
 developers and researchers to implement Python scripts to hook into and access
 the internals of Tor.
 
 \section{Related Work} 
 \label{sec:relatedwork}
-In order to show the types of attacks that can be used to reduce the anonymity of the Tor network, we summarise papers that identify some of these types of attacks and the authors' proposed countermeasures for them. We then identify flaws in the implementation and potential deployment problems of these countermeasures. We could not find any literature about any existing standardised frameworks like the one we propose and have therefore focused on identifying different attack types that our framework can work with.\\
+In order to show the types of attacks that can be used to reduce the anonymity of the Tor network, we summarise papers that identify some of these types of attacks and the authors' proposed countermeasures for them. We then identify flaws in the implementation and potential deployment problems of these countermeasures. We could not find any literature about any existing plugins like the one we propose and have therefore focused on identifying different attack types that our plugin architecture can be used with.\\
 
 \subsection{Rate Reduction Attack}
 To identify communicating peers in Tor, an attacker can eavesdrop on two peers they think are communicating. They can then use traffic analysis to identify patterns in the communication behaviour of both and identify similarities between them to conclude that they are indeed communicating with one another. This type of attack is difficult as it requires access to both peers to eavesdrop on the traffic behaviour. \citeauthor{gilad2012spying} have detailed a type of attack on Tor that requires only eavesdropping on the client, while carrying out an active attack on the exit relay of a Tor circuit in order to identify communicating peers.
@@ -208,6 +208,13 @@ These hooks can be added to Tor simply by making modification to
 \texttt{or/main.c} in the Tor codebase. The startup and async hooks can be added
 to the top of the \texttt{main} function.
 
+An example of the execution timeline of these hooks can be seen in \ref{fig:timeline}.
+\begin{figure}[h!]
+\centering
+\subfloat{{\includegraphics[width=0.5\textwidth]{images/timeline.png}}}
+\caption{Sample Timeline of Hook Execution}
+\label{fig:timeline}
+\end{figure}
 
 \section{Conclusion}
 By exposing the internals of Tor through a scripting language it allows a wider
