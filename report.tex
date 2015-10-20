@@ -65,7 +65,7 @@ The solution to the attack is to selectively kill tor circuits when the machine
 is about a critical memory usage amount.
 
 \subsection{Routing Attack}
-A suite of attacks decribed by \citeauthor{sun2015raptor} includes attacks that
+A suite of attacks described by \citeauthor{sun2015raptor} includes attacks that
 can be performed by Autonomous System adversaries. Here we describe the high
 level details of the attacks described in the paper.
 \subsubsection{Asymmetric Traffic Analysis Attack}
@@ -81,7 +81,7 @@ traffic routes are often not the same. \citeauthor{sun2015raptor} describes the
 asymmetric traffic analysis attack as only needing to observe traffic in one of
 the directions to correlate the data and determine if the client is
 communicating with the destination. This attack increases the ability of
-AS-level adversaries to deanonimise Tor users by increasing the amount of ASes
+AS-level adversaries to deanonymise Tor users by increasing the amount of ASes
 that can correlate data.
 \subsubsection{BGP Churn}
 The internet paths between clients and Tor relays change over time due to
@@ -101,11 +101,11 @@ was destined to the prefix to be collected by the adversary. This allows ASes to
 increase their chance of observing traffic between clients and entry relays, and
 exit relays and destinations. However the disadvantage of this attack is that
 the traffic is silently dropped without telling the source that the data has not
-reached the recipeint resulting in the connection being dropped.
+reached the recipient resulting in the connection being dropped.
 \subsubsection{BGP Interception}
 The authors describe an attack called BGP Interception which allows an AS to be
 an intermediate AS between the guard and the client as well as between the exit
-realy and the destination. The advantage of BGP Interception is that the
+relay and the destination. The advantage of BGP Interception is that the
 connection is not dropped allowing the connection to stay alive, unlike BGP
 Hijack. They show that 90\% of Tor relays are vulnerable to interception
 attacks. This attack increase the ability of an AS to perform the Asymmetric
@@ -113,7 +113,7 @@ Traffic Analysis Attack.
 \subsubsection{Countermeasures}
 \begin{itemize}
 \item \textbf{AS-Aware Path Selection:} Selecting the Tor relays that will be in
-	the path allows us to minimize the chances for AS-level traffic
+	the path allows us to minimise the chances for AS-level traffic
 	analysis. The Tor network can monitor the path dynamics between guards
 	and clients as well as between exit relays and destinations. This data
 	can be distributed to all Tor clients and then Tor clients can use this
@@ -123,12 +123,12 @@ Traffic Analysis Attack.
 \item \textbf{Advertising /24 Tor prefixes:} More than 90\% of Tor relays use a
 	prefix length shorter than /24. This makes them vulnerable to the AS BGP
 	hijack or interception attacks since AS's usually filter router
-	advertisments with a prefix longer than /24.
+	advertisements with a prefix longer than /24.
 \item \textbf{Favouring Closer Guard Relays:} Even if a Tor relay advertises a
 	/24 prefix, it is still possible for an adversary to launch a specific
-	prefix hijack ro interception attack. If this is the case the impack is
-	limited to localized attackers AS since the route is not globally
-	propageted. Tor client should choose their guard relays with a shorter
+	prefix hijack or interception attack. If this is the case the impact is
+	limited to localised attackers AS since the route is not globally
+	propagated. Tor client should choose their guard relays with a shorter
 	AS-level path between them. This reduces the risk of a specific prefix
 	attack as well as the risk of asymmetric traffic analysis and BGP churn.
 \end{itemize}
@@ -144,7 +144,7 @@ was easier to modify tor, we could reduce the time it takes for security issues
 to be resolved once they are discovered.
 
 We propose exposing the internals of Tor with a scripting language such as
-Python. This will allow developers and reseachers to write small amounts of code to extend Tor to fix security issues. The choice of Python is to reduce the complexity of making a modification to Tor, C is an unforgiving language and requires a high degree of experience to write robust and secure code.
+Python. This will allow developers and researchers to write small amounts of code to extend Tor to fix security issues. The choice of Python is to reduce the complexity of making a modification to Tor, C is an unforgiving language and requires a high degree of experience to write robust and secure code.
 
 Several areas of the Tor internals will need to be exposed by the Python plugin
 architecture. To implement a plugin that circumvents the ``Sniper Attack''
