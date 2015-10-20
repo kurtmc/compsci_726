@@ -167,7 +167,9 @@ To implement our proposed countermeasure for the rate reduction attack described
 For the countermeasure identified for Guard Selection Attacks, exposure to the Tor client code is needed. Specifically, this countermeasure would require access to the Tor code that selects paths. With access to this, a plugin developer could modify which guard nodes are selected from to use in the circuit and could conform to a defined set of nodes as proposed by \citeauthor{hayesguard}.\\
 
 \subsubsection{Tor Scanning Attacks}
-Use the connection hook to create a new connection and identify connections by both parameters, not just one. Also just send noise like in the rate reduction attack. Needs access to the channel\_tls\_handle\_incoming in the channeltls.h file.\\
+Use the connection hook to create a new connection and identify connections by
+both parameters, not just one. Also just send noise like in the rate reduction
+attack. Needs access to the channel\_tls\_handle\_incoming in the channeltls.h file.
 
 \subsubsection{Sniper Attack}
 For the countermeasure suggested by \citeauthor{jansen2014sniper} for Sniper Attacks, control over circuits in needed as well as access to the amount of free memory. Free memory can be exposed from the operating system using the standard Python library \texttt{os} and circuits can
@@ -199,6 +201,8 @@ the corresponding directory. The hook directories are proposed as follows:
 	Tors behaviour on the fly.
 \item \texttt{path\_selection/} This allows for modification of the path
 	selection algorithm used by Tor clients.
+\item \texttt{connection/} This hook runs before a connection is established
+	between Tor nodes.
 \end{itemize}
 These hooks can be added to Tor simply by making modification to
 \texttt{or/main.c} in the Tor codebase. The startup and async hooks can be added
