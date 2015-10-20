@@ -10,14 +10,14 @@
 \begin{document} 
 \maketitle
 
-\begin{abstract} Tor provides anonymity by routing communications within layers
-of encryption. A vulnerability in the Tor network is the indirect rate reduction
-attack. This attack can reduce anonymity by monitoring client connections and
-spoofing traffic on Tor exit relay. By spoofing messages to an exit relay at a
-rate slower than the client was previously receiving messages, a rate reduction
-can be observed. This indicates that the client is likely to be communicating
-with that specific server. We propose a method to counteract this attack by
-extending Tor to mask the rate of messages being received. \end{abstract}
+\begin{abstract}
+Tor provides anonymity by routing communications within layers of encryption.
+There are an increasing amount of vulnerabilities that are discovered in Tor.
+With this knowledge it is important to circumvent the vulnerabilities as quickly
+as possible. We propose TorScript a Python based plugin architecture for Tor
+that allows developers and researchers to easily and quickly make modifications
+to Tor for the purposes of increasing security.
+\end{abstract}
 
 \section{Introduction} 
 The majority of surveillance that occurs today is the surveillance of data and communications on the internet \cite{diffie2008brave}. Since the 2013 leaks from Edward Snowden we now know the scale of and government power behind mass internet surveillance. It is therefore important for internet users to have a way to protect themselves from certain types of surveillance that can expose their identities and online behaviour. One solution to this is to use an anonymity network such as Tor. Tor allows anonymous communication by using layers of encryption and routing network traffic between multiple volunteer operated onion routers \cite{tor}. This aids in the concealment of the
@@ -26,10 +26,10 @@ safe from government surveillance it is important to employ countermeasures for 
 
 New security attacks on Tor are being discovered frequently and are often published with specific ways to counteract them. Most of these proposed countermeasures come at a cost to network performance and performance of Tor and require implementations in the Tor source code directly. This requires knowledge of the Tor architecture and code base in order to implement the countermeasure, and then needs to be integrated and deployed in Tor itself. This process takes time and is not a simple process due to Tor's complexity so it therefore leaves Tor open to the identified vulnerabilities for potentially very long periods of time. \\
 
-We propose TorScript, a framework for standardised implementation of countermeasures against attacks on Tor. [overview of stuff about how our framework works].
-
-% Here's all the citations we have to use. 
-\cite{hayesguard}\cite{gilad2012spying}\cite{sun2015raptor}\cite{biryukov2012torscan}\cite{jansen2014sniper}\cite{tor}
+We propose TorScript, a framework for standardised implementation of
+countermeasures against attacks on Tor. The plugin architecture allows for
+developers and researchers to implement Python scripts to hook into and access
+the internals of Tor.
 
 \section{Related Work} 
 \label{sec:relatedwork}
@@ -201,6 +201,8 @@ the corresponding directory. The hook directories are proposed as follows:
 	selection algorithm used by Tor clients.
 \item \texttt{connection/} This hook runs before a connection is established
 	between Tor nodes.
+\item \texttt{circuit\_creation/} This hook runs before a circuit is created in
+	Tor.
 \end{itemize}
 These hooks can be added to Tor simply by making modification to
 \texttt{or/main.c} in the Tor codebase. The startup and async hooks can be added
@@ -216,6 +218,7 @@ which Tor operators may choose which plugins they would want to install based
 on their needs. It also allows researchers to actually implement the solutions
 they suggest in their papers allowing them to robustly verify their results.
 
+\nocite{*}
 \bibliographystyle{IEEEtranN}
 \bibliography{references}
 
