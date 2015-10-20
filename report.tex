@@ -146,16 +146,11 @@ Traffic Analysis Attack.\\
 Currently the Tor project is a significantly large application written in C,
 with around 216000 lines of code. The size of the project and the lack of an
 extensible API provides a high barrier of entry to making modifications to the
-project. We want to make it easier for developers and researchers to extend tor
-especially to implement countermeasures mentioned in academic articles. If it
-was easier to modify tor, we could reduce the time it takes for security issues
-to be resolved once they are discovered.
+project. We want to make it easier for developers and researchers to extend Tor, especially to implement countermeasures that are often presented in academia. If it was easier to modify Tor, the time it takes for security issues to be resolved would be significantly reduced from when they are discovered.\\
 
 We propose exposing the internals of Tor with a scripting language such as
 Python. This will allow developers and researchers to write small amounts of
-code to extend Tor to fix security issues. The choice of Python is to reduce the
-complexity of making a modification to Tor, C is an unforgiving language and
-requires a high degree of experience to write robust and secure code.
+code to extend Tor to fix security issues. The choice of Python is to reduce the complexity of making a modification to Tor as C is an unforgiving language and requires a high degree of experience to write robust and secure code.
 
 \subsection{Exposing Important Sections of Tor}
 Several areas of the Tor internals will need to be exposed by the Python plugin
