@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 \usepackage{subfig}
 
-\title{TorScript: A Proposed Framework For Standardised Implementation of Countermeasures Against Attacks on Tor} 
+\title{TorScript: A Proposed Library For Standardised Implementation of Countermeasures Against Attacks on Tor} 
 \date{today}
 \author{Jenna Finlayson~~Kurt McAlpine}
 
@@ -161,13 +161,13 @@ code that will need to be exposed to implement Python script plugins to prevent
 the vulnerabilities described in section \ref{sec:relatedwork}.\\
 
 \subsubsection{Rate Reduction Attack}
-To implement our proposed countermeasure for the rate reduction attack described in \cite{gilad2012spying} a plugin for making the rate of message sending consistent would need to be written. This would not require any interacting with Tor but the plugin itself can automate the sending.
+To implement our proposed countermeasure for the rate reduction attack described by \citeauthor{gilad2012spying}, a plugin that makes the rate of receiving messages on any node consistent would need to be written. To make the rate consistent, we propose adding `noise' to the network. By adding noise, a consistent rate of messages received would be seen by any eavesdroppers on a client as this noise is passed on by the guard node to the client. This would not require any use of specific Tor code although the plugin would need to be started up anytime a new circuit is established. A hook method would need to be created in Tor to run custom plugin code such as this one any time a new circuit is made.\\
 
 \subsubsection{Guard Selection Attack}
-This would require a plugin for the path selection hook that changes which nodes are used for the entry nodes. This would require exposure to the client tor code for selecting paths.
+For the countermeasure identified for Guard Selection Attacks, exposure to the Tor client code is needed. Specifically, this countermeasure would require access to the Tor code that selects paths. With access to this, a plugin developer could modify which guard nodes are selected from to use in the circuit and could conform to a defined set of nodes as proposed by \citeauthor{hayesguard}.\\
 
 \subsubsection{Tor Scanning Attacks}
-Use the connection hook to create a new connection and identify connections by both parameters, not just one. Also just send noise like in the rate reduction attack. Needs access to the channel_tls_handle_incoming in the channeltls.h file.
+Use the connection hook to create a new connection and identify connections by both parameters, not just one. Also just send noise like in the rate reduction attack. Needs access to the channel\_tls\_handle\_incoming in the channeltls.h file.\\
 
 \subsubsection{Sniper Attack}
 For the countermeasure suggested by \citeauthor{jansen2014sniper} for Sniper Attacks, control over circuits in needed as well as access to the amount of free memory. Free memory can be exposed from the operating system using the standard Python library \texttt{os} and circuits can
