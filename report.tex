@@ -167,7 +167,9 @@ To implement our proposed countermeasure for the rate reduction attack described
 This would require a plugin for the path selection hook that changes which nodes are used for the entry nodes. This would require exposure to the client tor code for selecting paths.
 
 \subsubsection{Tor Scanning Attacks}
-Use the connection hook to create a new connection and identify connections by both parameters, not just one. Also just send noise like in the rate reduction attack. Needs access to the channel_tls_handle_incoming in the channeltls.h file.
+Use the connection hook to create a new connection and identify connections by
+both parameters, not just one. Also just send noise like in the rate reduction
+attack. Needs access to the channel\_tls\_handle\_incoming in the channeltls.h file.
 
 \subsubsection{Sniper Attack}
 For the countermeasure suggested by \citeauthor{jansen2014sniper} for Sniper Attacks, control over circuits in needed as well as access to the amount of free memory. Free memory can be exposed from the operating system using the standard Python library \texttt{os} and circuits can
