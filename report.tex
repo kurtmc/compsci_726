@@ -171,7 +171,34 @@ binding.
 The countermeasures described in this section require collecting data about the
 location of Autonomous Systems and disributing it to clients, making relay path
 selection based on that information, changing the prefix length and favouring
-entry relays with the shortest AS-level path.
+entry relays with the shortest AS-level path. This will require exposing the
+path selection controls for the client and exposing the prefix length controls
+on the Tor server.
+
+\subsection{Architecture}
+Several different hooks will be available to a plugin developer. Depending on
+the hooks the developer wants to make use of the developer will add a script to
+the corresponding directory. The hook directories are proposed as follows:
+\begin{itemize}
+\item \texttt{startup/} All the scripts in this directory are run before Tor is
+	running, so that certain paramters may be set.
+\item \texttt{async/} For scripts that will be running continuosly while Tor is
+	running. This allows the plugin developers to write plugins that change
+	Tors behaviour on the fly.
+\item \texttt{path\_selection/} This allows for modification of the path
+	selection algorithm used by Tor clients.
+\end{itemize}
+
+
+
+\section{Conclusion}
+By exposing the internals of Tor through a scripting language it allows a wider
+range of contributors to make modifications to Tor. If we expose it using a
+popular language such as Python it reduces the skill level required to make
+changes. It also allows for a variety of plugins to be produced for Tor, of
+which Tor operators may choose which plugins they would want to install based
+on their needs. It also allows researchers to actually implement the solutions
+they suggest in their papers allowing them to robustly verify their results.
 
 \bibliographystyle{IEEEtranN}
 \bibliography{references}
