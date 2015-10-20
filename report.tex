@@ -18,48 +18,31 @@ with that specific server. We propose a method to counteract this attack by
 extending Tor to mask the rate of messages being received. \end{abstract}
 
 \section{Introduction} 
-The majority of surveillance that occurs today is the
-surveillance of data and communications on the internet
-\cite{diffie2008brave}. Since the 2013 leaks from Edward Snowden we now know the scale of and government power behind mass internet
-surveillance. It is therefore important for internet users to have a way to
-protect themselves from certain types of surveillance that can expose their identities and online behaviour. One solution to this is to use an anonymity network such as Tor. Tor allows anonymous communication by using layers of encryption and routing network
-traffic between multiple volunteer operated onion routers \cite{tor}. This aids in the concealment of the
+The majority of surveillance that occurs today is the surveillance of data and communications on the internet \cite{diffie2008brave}. Since the 2013 leaks from Edward Snowden we now know the scale of and government power behind mass internet surveillance. It is therefore important for internet users to have a way to protect themselves from certain types of surveillance that can expose their identities and online behaviour. One solution to this is to use an anonymity network such as Tor. Tor allows anonymous communication by using layers of encryption and routing network traffic between multiple volunteer operated onion routers \cite{tor}. This aids in the concealment of the
 user's physical location, identity, and usage from potential surveyors. To keep
-safe from government surveillance it is important to employ countermeasures for the security
-vulnerabilities in Tor as they are identified.\\
+safe from government surveillance it is important to employ countermeasures for the security vulnerabilities in Tor as they are identified.\\
 
-New security attacks on Tor are being discovered frequently and are often published with specific ways to counteract them. Most of these proposed countermeasures come at a cost to the performance [and other things] of Tor and require implementations in the Tor source code directly. This requires knowledge of the Tor architecture and code base in order to implement the countermeasure, and then needs to be integrated and deployed in Tor itself. This process takes time and is not a simple process due to Tor's complexity so it therefore leaves Tor open to the identified vulnerabilities for potentially very long periods of time. \\
+New security attacks on Tor are being discovered frequently and are often published with specific ways to counteract them. Most of these proposed countermeasures come at a cost to network performance and performance of Tor and require implementations in the Tor source code directly. This requires knowledge of the Tor architecture and code base in order to implement the countermeasure, and then needs to be integrated and deployed in Tor itself. This process takes time and is not a simple process due to Tor's complexity so it therefore leaves Tor open to the identified vulnerabilities for potentially very long periods of time. \\
 
 We propose TorScript, a framework for standardised implementation of countermeasures against attacks on Tor. [overview of stuff about how our framework works].
 
 % Here's all the citations we have to use. 
 \cite{hayesguard}\cite{gilad2012spying}\cite{sun2015raptor}\cite{biryukov2012torscan}\cite{jansen2014sniper}\cite{tor}
 
-\section{Related Work} In order to show the types of attacks that can be used to
-reduce the anonymity of the Tor network, we summarise papers that identify some
-of these types of attacks and the authors' proposed countermeasures for them. We
-then identify flaws in the implementation and potential deployment problems of
-these countermeasures. We could not find any literature about any existing
-standardised frameworks like the one we propose and have therefore focused on
-identifying different attack types that our framework can work with.\\
+\section{Related Work} In order to show the types of attacks that can be used to reduce the anonymity of the Tor network, we summarise papers that identify some of these types of attacks and the authors' proposed countermeasures for them. We then identify flaws in the implementation and potential deployment problems of these countermeasures. We could not find any literature about any existing standardised frameworks like the one we propose and have therefore focused on identifying different attack types that our framework can work with.\\
 
+\subsection{Rate Reduction Attack}
 To identify communicating peers in Tor, an attacker can eavesdrop on two peers they think are communicating. They can then use traffic analysis to identify patterns in the communication behaviour of both and identify similarities between them to conclude that they are indeed communicating with one another. This type of attack is difficult as it requires access to both peers to eavesdrop on the traffic behaviour. \citeauthor{gilad2012spying} have detailed a type of attack on Tor that requires only eavesdropping on the client, while carrying out an active attack on the exit relay of a Tor circuit in order to identify communicating peers.
 
 The attack is a variant of the Idle Scan attack, however instead of trying to find open ports on a server, the authors try to determine the identity of communicating peers. To carry out the attack, three consecutive spoofed messages with invalid TCP sequence numbers are sent to the exit relay as if it came from the destination communicating peer that has a direct TCP connection to the exit relay. This causes three duplicate ACK messages to be sent from the exit relay to the destination peer which is considered to be a congestion event in TCP. As a result of the congestion event occurring, the congestion window on the destination peer is shrunk and the `sending rate' decreases. This decrease in sending rate can be seen on the origin peer as the rate of communication with the destination has been reduced. If this event is observed on the origin peer as a result of the active attack on the exit node that is communicating with the destination peer, it can be concluded that the origin and destination peer are in fact communicating.
 
 The countermeasures that \citeauthor{gilad2012spying} have identified for this type of attack on Tor include discarding packets that do not have valid sequence numbers and also increasing the size of the congestion window so that it takes longer to cause a congestion event. Increasing the size of the congestion window on the destination peer would not be a viable robust solution as it would require all servers that could possibly be being communicated with to implement this change. It would also change the behaviour of real congestion events which could cause a loss in network performance. Similarly, by discarding out of sequence TCP packets, congestion control of actual congestion events would be modified and this would also be likely to affect network performance. 
 
-An ideal countermeasure for this type of attack would be to modify Tor itself so that modification of destination peers is not necessary. We propose that Tor implement the ability to control the rate of sending packets so that consecutive spoofed messages cannot cause congestion events as easily, and in the case that they do, the reduction in rate is not so observable on the origin peer. YO
+An ideal countermeasure for this type of attack would be to modify Tor itself so that modification of destination peers is not necessary. We propose that Tor implement the ability to control the rate of sending packets so that consecutive spoofed messages cannot cause congestion events as easily, and in the case that they do, the reduction in rate is not so observable on the origin peer.
 
-\section{Sniper Attack}
+\subsection{Sniper Attack}
 The sniper attack outlined by \citeauthor{jansen2014sniper} describes a denial
-of service attack that can be targeted to any Tor node. The attack is relatively
-cheap where the attacker only needs 92 KiB/s upstream to start consuming memory
-at 2187 KiB/s. The way the attack works is by starting a large download over the
-Tor network, then stop reading from the entry relay and then malliciously
-sending \texttt{SENDME} requests to the exit relay, this forces the entry relay
-to queue up cells to send to the client. The Linux OOM killer will kill the tor
-process when the machine runs out of memory, disabling that node.
+of service attack that can be targeted to any Tor node. The attack is relatively cheap where the attacker only needs 92 KiB/s upstream to start consuming memory at 2187 KiB/s. The way the attack works is by starting a large download over the Tor network, then stop reading from the entry relay and then malliciously sending \texttt{SENDME} requests to the exit relay, this forces the entry relay to queue up cells to send to the client. The Linux OOM killer will kill the tor process when the machine runs out of memory, disabling that node.
 
 The solution to the attack is to selectively kill tor circuits when the machine
 is about a critical memory usage amount.
@@ -74,10 +57,7 @@ was easier to modify tor, we could reduce the time it takes for security issues
 to be resolved once they are discovered.
 
 We propose exposing the internals of Tor with a scripting language such as
-Python. This will allow developers and reseachers to write small amounts of code
-to extend Tor to fix security issues. The choice of Python is to reduce the
-complexity of making a modification to Tor, C is an unforgiving language and
-requires a high degree of experience to write robust and secure code.
+Python. This will allow developers and reseachers to write small amounts of code to extend Tor to fix security issues. The choice of Python is to reduce the complexity of making a modification to Tor, C is an unforgiving language and requires a high degree of experience to write robust and secure code.
 
 Several areas of the Tor internals will need to be exposed by the Python plugin
 architecture. To implement a plugin that circumvents the ``Sniper Attack''
